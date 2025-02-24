@@ -25,7 +25,7 @@ private:
 public:
     // Basic declaration constructor
     vector(){ // This is basic declaration of vector in main function / Declaring empty vector
-        data = nullptr; // No allocated memory
+        data = nullptr; // No allocated memory, initially no memory is allocated
         size_ = 0;
         capacity_ = 0;
     }
@@ -49,20 +49,20 @@ public:
         size_ = other.size_;
         capacity_ = other.capacity_;
         // The others need to be empty for surity
-        other.data = nullptr;
+        other.data = nullptr; // Nullify the source object
         other.size_ = 0;
         other.capacity_ = 0;
     }
     // Assignment operator (copy) 
     vector& operator=(const vector &other){ // When "=" is used to copy
-        if(this != other){
+        if(this != other){ // Avoid self assignment
             size_ = other.size_;
             capacity_ = other.capacity_;
             delete[] data; // Freeing the older memory
             data = new T[capacity_]; // Allocating new memory
             copy(other.data, other.data+size_, data); // Copy the elements to the new allocated memory
         }
-        return this; // Return it
+        return this; // Return reference to current object
     }
     // Assignment operator (move)
     vector& operator=(vector &&other){
@@ -89,7 +89,7 @@ public:
     // Adding element to the end
     void push_back(const T &value){
         if(size_ == capacity_){
-            expandCapacity(); // If there is no allocated memory this function expand it
+            expandCapacity(); // Expand when the container is full
         }
         data[size_] = value;
         size_ = size_ + 1; // New size is assigned as we insert a new element
@@ -102,8 +102,8 @@ public:
     }
     // Return data with bound checking
     T& at(size_t index){
-        if(index >= size_){
-            throw out_of_range("Index Out of Range"); // Error Massage
+        if(index >= size_){ // Provide bound checking access
+            throw out_of_range("Index Out of Range"); // Error Massage if throws an error
         }
         return data[index];
     }
@@ -111,6 +111,8 @@ public:
     T& operator[](size_t index){
         return data[index];
     }
+
+    // Returns iterators (pointers) to the beginning and end of the container
     
     T* begin(){
         return data;
@@ -131,7 +133,7 @@ public:
     void resize(size_t newSize, const T& defaultValue = T()){ // If second argument is not passed then it will assign default value
         if(newSize > capacity_){
             reserve(newSize); // If the newSize is large, then allocate more memory for the given size
-        }
+        } // If increased, filled new slots with default values
         for(size_t i=size_; i<newSize; ++i){
             data[i] = defaultValue;
         }
