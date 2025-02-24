@@ -1,3 +1,5 @@
+// Created By Krishno Mondol 24 February, 2025
+
 #include<iostream>
 #include<algorithm> // For copy function
 #include<stdexcept> // For noexcept
@@ -5,6 +7,7 @@ using namespace std;
 template <typename T>
 class vector{
 private:
+// In private we declare the main data size capacity and the expand function
     T *data; // A pointer to a dynamic array
     size_t size_; // Number of elements
     size_t capacity_; // Allocated memory size
@@ -21,8 +24,8 @@ private:
     }
 public:
     // Basic declaration constructor
-    vector(){
-        data = nullptr;
+    vector(){ // This is basic declaration of vector in main function / Declaring empty vector
+        data = nullptr; // No allocated memory
         size_ = 0;
         capacity_ = 0;
     }
@@ -35,12 +38,14 @@ public:
         size_ = other.size_;
         capacity_ = other.capacity_;
         data = new T[capacity_];
-        copy(other.data, other.data + size_, data);
+        copy(other.data, other.data + size_, data); // Copy the elements from other to data
     }
     //Move constructor
-    vector(vector&& other) noexcept{
+    vector(vector&& other) noexcept{ //
+        // noexcept is used to tell the compiler that the elements are moving from one cantainer to another container 
+        // double ampersand is used to shallow copy the other. It is used to make the operation faster
         // Moving ownership or stealing
-        data = other.data;
+        data = other.data; // Just transferring ownership
         size_ = other.size_;
         capacity_ = other.capacity_;
         // The others need to be empty for surity
@@ -49,7 +54,7 @@ public:
         other.capacity_ = 0;
     }
     // Assignment operator (copy) 
-    vector& operator=(const vector &other){
+    vector& operator=(const vector &other){ // When "=" is used to copy
         if(this != other){
             size_ = other.size_;
             capacity_ = other.capacity_;
@@ -84,15 +89,15 @@ public:
     // Adding element to the end
     void push_back(const T &value){
         if(size_ == capacity_){
-            expandCapacity();
+            expandCapacity(); // If there is no allocated memory this function expand it
         }
         data[size_] = value;
-        size_ = size_ + 1;
+        size_ = size_ + 1; // New size is assigned as we insert a new element
     }
     // Removing element from the end
     void pop_back(){
         if(size_ > 0){
-            size_ --;
+            size_ --; // Just making the size 1 short means that the container has realese the last element
         }
     }
     // Return data with bound checking
@@ -117,15 +122,15 @@ public:
     void reserve(size_t newCapacity){
         if(capacity_ < newCapacity){
             capacity_ = newCapacity;
-            T *newData = new T[capacity_];
-            copy(data, data+size_, newData);
+            T *newData = new T[capacity_]; //Allocate memory for the new capacity
+            copy(data, data+size_, newData); // Copying the previous element
             delete[] data;
             data = newData;
         }
     }
-    void resize(size_t newSize, const T& defaultValue = T()){
+    void resize(size_t newSize, const T& defaultValue = T()){ // If second argument is not passed then it will assign default value
         if(newSize > capacity_){
-            reserve(newSize);
+            reserve(newSize); // If the newSize is large, then allocate more memory for the given size
         }
         for(size_t i=size_; i<newSize; ++i){
             data[i] = defaultValue;
