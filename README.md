@@ -21,15 +21,22 @@ This project is a custom implementation of a **vector** class in C++ that replic
   - `begin()`: Returns an iterator to the first element.
   - `end()`: Returns an iterator to the past-the-end element.
 
-## Installation & Usage
-```sh
-# Clone the repository
-git clone https://github.com/yourusername/custom-vector.git
-```
-```cpp
-// Include the header file in your project
-#include "vector.h"
-```
+## How to Use
+1. **Create a Header File**
+   - Make a new header file, e.g., `vector.h`.
+
+2. **Copy the Source Code**
+   - Copy the vector implementation source code into this header file.
+
+3. **Include Necessary Header Files**
+   - Ensure you include all necessary C++ standard library headers required for your implementation.
+
+4. **Exclude `iostream` and `main()` Function**
+   - Do not include `#include <iostream>` in the header file.
+   - Do not write the `main()` function inside the header file.
+
+5. **Include the Header in Your Program**
+   - In your main program file, include `vector.h` and use your custom vector class as needed.
 
 ## Example Usage
 ```cpp
